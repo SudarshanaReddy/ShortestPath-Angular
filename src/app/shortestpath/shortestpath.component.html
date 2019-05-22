@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Bootstrap Example</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</head>
+
+
+<body>
+  <div class="container">
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        <h1>Shortest Path From Earth to A Planet</h1>
+        <br/>
+      </div>
+
+      <div class="form-inline">
+        <span> <h2> Source Planet     : </h2> </span>
+          <select id="source" class="form-control" (change)="captureSource($event)">
+            <option value="select"> Select</option>
+            <option > A </option>
+          </select>
+      </div>
+
+      <div class="form-inline">
+        <span> <h2> Destination Planet : </h2> </span>
+         <select id="destination" class="form-control" (change)="captureTarget($event)">
+             <option value="select"> Select</option>
+             <option *ngFor="let item of planets">
+               {{item}}
+             </option>
+        </select>
+      </div>
+      <br/>
+      <div *ngIf="submitFlag == true">
+        <h2> List of Planet of Hops From {{startPlanet}} to {{endPlanet}}</h2>
+        <table class="table">
+          <tbody>
+            <tr>
+                <th *ngFor="let i of hopsSize"> Hop {{i}}</th>
+            </tr>
+            <tr>
+              <th *ngFor="let hop of planetHops">
+                {{hop.name}}
+              </th>
+            </tr>
+          </tbody>
+        </table>
+
+      </div>
+
+      <button type="button" class="col-md-12 btn btn-primary center-align" (click)="findShortestPath()">SUBMIT</button>
+    </div>
+  </div>
+</body>
+
