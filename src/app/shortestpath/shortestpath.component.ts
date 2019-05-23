@@ -9,26 +9,33 @@ import { Planet } from '../model/Planet';
 })
 export class ShortestpathComponent implements OnInit {
 
-  planets = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R',
-     'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
+  planets;
   startPlanet;
   endPlanet;
-  planetHops: Planet[] = [];
+  planetHops = new Array<Planet>();
   submitFlag = false;
   hopsSize = new Array<number>();
+  submitCount;
   constructor(public httpClient: HttpClient) { }
 
   ngOnInit() {
 
     this.createGalaxy();
+    this.getAllPlanets();
 
   }
 
 
   createGalaxy() {
 
-    this.httpClient.post('http://localhost:8081/creategalaxy', {})
-      .subscribe(data => console.log(data));
+    this.httpClient.post('http://localhost:8081/creategalaxy', {});
+  }
+
+  getAllPlanets() {
+    this.httpClient.get('http://localhost:8081/getAllPlanets')
+      .subscribe(data => {
+        this.planets = data;
+      });
   }
 
   findShortestPath() {
@@ -38,25 +45,25 @@ export class ShortestpathComponent implements OnInit {
         this.capturePlanetHops(data);
       });
 
+    this.hopsSize = [];
     this.submitFlag = true;
   }
 
   captureSource(event) {
      this.startPlanet = event.target.value;
-     alert(this.startPlanet);
   }
 
   captureTarget(event) {
     this.endPlanet = event.target.value;
-    alert(this.endPlanet);
   }
 
   capturePlanetHops(planets) {
      this.planetHops = planets;
-     console.log(this.planetHops);
      for (let i = 0 ; i <  this.planetHops.length; i++) {
           this.hopsSize.push(i);
     }
+
+
   }
 
 }
